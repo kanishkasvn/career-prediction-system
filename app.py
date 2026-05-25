@@ -3,100 +3,96 @@ import numpy as np
 import pickle
 import joblib
 
-# page settings
+# ---------------- PAGE SETTINGS ---------------- #
 
 st.set_page_config(
     page_title="Career Prediction System",
-    layout="centered"
+    layout="wide"
 )
 
-# custom styling
+# ---------------- CUSTOM CSS ---------------- #
 
 st.markdown("""
 <style>
 
 .main {
-    background-color: #f5f7fa;
+    background-color: #eef3f8;
 }
 
 h1 {
-    color: #1f4e79;
+    color: #1d3557;
     text-align: center;
     font-size: 42px;
+    font-weight: bold;
+}
+
+h3 {
+    color: #264653;
 }
 
 .stButton > button {
-    background-color: #1f77b4;
+    background-color: #457b9d;
     color: white;
     border-radius: 8px;
-    height: 45px;
+    height: 50px;
     width: 100%;
     font-size: 18px;
     border: none;
 }
 
 .stButton > button:hover {
-    background-color: #125d91;
+    background-color: #1d3557;
     color: white;
-}
-
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
 }
 
 div[data-baseweb="select"] {
     border-radius: 8px;
 }
 
-.css-1d391kg {
-    background-color: #e8eef5;
+section[data-testid="stSidebar"] {
+    background-color: #dce8f2;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# loading files
+# ---------------- LOAD MODEL ---------------- #
 
 model = joblib.load("compressed_model.pkl")
 
 encoders = pickle.load(open("encoders.pkl", "rb"))
 
-# title section
+# ---------------- TITLE ---------------- #
 
 st.title("Career Prediction System")
 
 st.write(
-    "This system predicts suitable career roles based on student skills, interests and personality traits."
+    "This system predicts suitable career paths based on "
+    "technical skills, interests, certifications and personality traits."
 )
 
 st.markdown("---")
 
-# input section
-
-st.subheader("Student Information")
+# ---------------- INPUT SECTION ---------------- #
 
 col1, col2 = st.columns(2)
 
+# ---------- LEFT COLUMN ---------- #
+
 with col1:
+
+    st.subheader("Aptitude & Core Skills")
 
     logical_rating = st.slider(
         "Logical Quotient Rating",
-        0,
+        1,
         10,
         5
     )
 
     coding_skills = st.slider(
         "Coding Skills Rating",
-        0,
-        10,
-        5
-    )
-
-    public_speaking = st.slider(
-        "Public Speaking Points",
-        0,
+        1,
         10,
         5
     )
@@ -105,70 +101,123 @@ with col1:
         "Hackathons Participated",
         0,
         10,
-        2
+        0
     )
 
-    self_learning = st.selectbox(
-        "Self Learning Capability",
-        ["yes", "no"]
-    )
-
-    extra_courses = st.selectbox(
-        "Extra Courses Completed",
-        ["yes", "no"]
-    )
-
-with col2:
-
-    worked_in_teams = st.selectbox(
-        "Worked in Teams",
-        ["yes", "no"]
-    )
-
-    introvert = st.selectbox(
-        "Introvert",
-        ["yes", "no"]
-    )
-
-    reading_skills = st.selectbox(
-        "Reading and Writing Skills",
-        ["poor", "medium", "excellent"]
-    )
-
-    memory_capability = st.selectbox(
-        "Memory Capability Score",
-        ["poor", "medium", "excellent"]
-    )
-
-    smart_worker = st.selectbox(
-        "Smart Worker",
-        ["yes", "no"]
-    )
-
-    management_skills = st.slider(
-        "Management Skills",
-        0,
+    public_speaking = st.slider(
+        "Public Speaking Confidence",
+        1,
         10,
         5
     )
 
-# encoding values
+    management_skills = st.slider(
+        "Management Skills",
+        1,
+        10,
+        5
+    )
 
-self_learning_encoded = encoders[
-    "self-learning capability?"
-].transform([self_learning])[0]
+    reading_skills = st.selectbox(
+        "Reading & Writing Skills",
+        ["poor", "medium", "excellent"]
+    )
 
-extra_courses_encoded = encoders[
-    "Extra-courses did"
-].transform([extra_courses])[0]
+    memory_capability = st.selectbox(
+        "Memory Capability",
+        ["poor", "medium", "excellent"]
+    )
 
-worked_in_teams_encoded = encoders[
-    "worked in teams ever?"
-].transform([worked_in_teams])[0]
+# ---------- RIGHT COLUMN ---------- #
 
-introvert_encoded = encoders[
-    "Introvert"
-].transform([introvert])[0]
+with col2:
+
+    st.subheader("Technical Interests & Personality")
+
+    interested_subjects = st.selectbox(
+        "Primary Area of Interest",
+        [
+            "programming",
+            "Management",
+            "data engineering",
+            "networks",
+            "Software Engineering",
+            "cloud computing",
+            "parallel computing",
+            "IOT",
+            "hacking",
+            "Computer Architecture",
+            "Data Science"
+        ]
+    )
+
+    certifications = st.selectbox(
+        "Certification Domain",
+        [
+            "Machine Learning",
+            "App Development",
+            "Python",
+            "Shell Programming",
+            "R Programming",
+            "Information Security",
+            "Hadoop",
+            "Full Stack",
+            "Distro Making",
+            "Testing"
+        ]
+    )
+
+    workshops = st.selectbox(
+        "Most Impactful Workshop",
+        [
+            "Data Science",
+            "Testing",
+            "Game Development",
+            "Cloud Computing",
+            "Web Technologies",
+            "Database Security",
+            "System Designing",
+            "Hacking",
+            "Machine Learning",
+            "Application Development"
+        ]
+    )
+
+    career_interest = st.selectbox(
+        "Preferred Career Stream",
+        [
+            "BPA",
+            "Cloud Services",
+            "Testing and QA",
+            "Sales and Marketing",
+            "System Developer",
+            "Business process analyst",
+            "Developer",
+            "Security",
+            "Cloud Engineer",
+            "Data Science"
+        ]
+    )
+
+    work_style = st.radio(
+        "Preferred Work Style",
+        ["Technical", "Management"],
+        horizontal=True
+    )
+
+    introvert = st.radio(
+        "Are you an Introvert?",
+        ["No", "Yes"],
+        horizontal=True
+    )
+
+    self_learning = st.radio(
+        "Self Learning Capability",
+        ["Yes", "No"],
+        horizontal=True
+    )
+
+# ---------------- ENCODING VALUES ---------------- #
 
 reading_encoded = encoders[
     "reading and writing skills"
@@ -178,11 +227,23 @@ memory_encoded = encoders[
     "memory capability score"
 ].transform([memory_capability])[0]
 
-smart_worker_encoded = 1 if smart_worker == "yes" else 0
+introvert_encoded = encoders[
+    "Introvert"
+].transform([introvert.lower()])[0]
 
-# prediction
+self_learning_encoded = encoders[
+    "self-learning capability?"
+].transform([self_learning.lower()])[0]
 
-if st.button("Predict Career"):
+# additional manual encoding
+
+work_style_encoded = 1 if work_style == "Management" else 0
+
+# ---------------- PREDICTION ---------------- #
+
+st.markdown("---")
+
+if st.button("Predict Career Path"):
 
     input_data = np.array([[
 
@@ -192,12 +253,13 @@ if st.button("Predict Career"):
         public_speaking,
 
         self_learning_encoded,
-        extra_courses_encoded,
+
+        0,
 
         reading_encoded,
         memory_encoded,
 
-        smart_worker_encoded,
+        work_style_encoded,
         management_skills,
 
         0,
@@ -210,7 +272,7 @@ if st.button("Predict Career"):
         0,
         0,
 
-        worked_in_teams_encoded,
+        1,
         introvert_encoded
 
     ]])
@@ -226,14 +288,14 @@ if st.button("Predict Career"):
         ].inverse_transform(prediction)
 
         st.success(
-            "Suggested Career Role: " +
+            "Suggested Career Path : " +
             str(final_prediction[0])
         )
 
     except:
 
         st.success(
-            "Predicted Career Code: " +
+            "Predicted Career Code : " +
             str(prediction[0])
         )
 
