@@ -15,19 +15,9 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Main Background */
-
 .main {
-    background: linear-gradient(
-        135deg,
-        #0b1f3a,
-        #102b50,
-        #163d6b
-    );
-    color: white;
+    background-color: #eef3f8;
 }
-
-/* Main container */
 
 .block-container {
     padding-top: 2rem;
@@ -36,100 +26,42 @@ st.markdown("""
     padding-right: 5%;
 }
 
-/* Title */
-
 h1 {
-    color: #ffffff;
+    color: #1d3557;
     text-align: center;
-    font-size: 42px;
-    font-weight: 700;
-    font-family: 'Trebuchet MS', sans-serif;
-    letter-spacing: 1px;
+    font-size: 40px;
+    font-weight: bold;
 }
-
-/* Subheadings */
 
 h3 {
-    color: #d6e4ff;
-    font-family: 'Verdana', sans-serif;
+    color: #264653;
 }
-
-/* Paragraph text */
 
 p {
-    color: #e8eef7;
     font-size: 16px;
-    font-family: 'Segoe UI', sans-serif;
 }
-
-/* Labels */
-
-label {
-    color: #ffffff !important;
-    font-weight: 500;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Selectbox styling */
-
-div[data-baseweb="select"] {
-    background-color: #f5f7fa;
-    border-radius: 8px;
-    color: black;
-}
-
-/* Slider text */
-
-.stSlider {
-    color: white;
-}
-
-/* Radio button text */
-
-.stRadio label {
-    color: white !important;
-}
-
-/* Button */
 
 .stButton > button {
-    background-color: #4ea8de;
+    background-color: #457b9d;
     color: white;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 50px;
     width: 100%;
     font-size: 18px;
-    font-weight: bold;
     border: none;
-    transition: 0.3s;
 }
 
 .stButton > button:hover {
-    background-color: #90e0ef;
-    color: #001233;
+    background-color: #1d3557;
+    color: white;
 }
 
-/* Success box */
-
-.stSuccess {
-    background-color: #caf0f8;
-    color: #001233;
-    border-radius: 10px;
-    padding: 10px;
+div[data-baseweb="select"] {
+    border-radius: 8px;
 }
 
-/* Info box */
-
-.stInfo {
-    background-color: #d6e4ff;
-    color: #001233;
-    border-radius: 10px;
-}
-
-/* Horizontal line */
-
-hr {
-    border: 1px solid #4ea8de;
+section[data-testid="stSidebar"] {
+    background-color: #dce8f2;
 }
 
 /* Mobile Responsive */
@@ -140,18 +72,18 @@ hr {
         font-size: 28px;
     }
 
-    p {
-        font-size: 14px;
-    }
-
     .block-container {
         padding-left: 6%;
         padding-right: 6%;
     }
 
+    p {
+        font-size: 14px;
+    }
+
     .stButton > button {
-        font-size: 16px;
         height: 45px;
+        font-size: 16px;
     }
 }
 
@@ -179,7 +111,9 @@ st.markdown("---")
 
 st.subheader("Enter Student Details")
 
-col1, col2 = st.columns(2)
+# Responsive columns
+
+col1, col2 = st.columns([1, 1])
 
 # ---------- LEFT COLUMN ---------- #
 
