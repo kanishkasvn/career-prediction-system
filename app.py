@@ -1,123 +1,240 @@
 import streamlit as st
 import numpy as np
 import pickle
-
-# loading saved files
-
 import joblib
+
+# page settings
+
+st.set_page_config(
+    page_title="Career Prediction System",
+    layout="centered"
+)
+
+# custom styling
+
+st.markdown("""
+<style>
+
+.main {
+    background-color: #f5f7fa;
+}
+
+h1 {
+    color: #1f4e79;
+    text-align: center;
+    font-size: 42px;
+}
+
+.stButton > button {
+    background-color: #1f77b4;
+    color: white;
+    border-radius: 8px;
+    height: 45px;
+    width: 100%;
+    font-size: 18px;
+    border: none;
+}
+
+.stButton > button:hover {
+    background-color: #125d91;
+    color: white;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+div[data-baseweb="select"] {
+    border-radius: 8px;
+}
+
+.css-1d391kg {
+    background-color: #e8eef5;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# loading files
 
 model = joblib.load("compressed_model.pkl")
 
 encoders = pickle.load(open("encoders.pkl", "rb"))
 
-# title
+# title section
 
 st.title("Career Prediction System")
 
-st.write("Predict suitable job role based on student skills")
-
-# taking inputs
-
-logical_rating = st.slider(
-    "Logical quotient rating",
-    0,
-    10,
-    5
+st.write(
+    "This system predicts suitable career roles based on student skills, interests and personality traits."
 )
 
-hackathons = st.slider(
-    "Hackathons completed",
-    0,
-    10,
-    2
-)
+st.markdown("---")
 
-coding_skills = st.slider(
-    "Coding skills rating",
-    0,
-    10,
-    5
-)
+# input section
 
-public_speaking = st.slider(
-    "Public speaking points",
-    0,
-    10,
-    5
-)
+st.subheader("Student Information")
 
-self_learning = st.selectbox(
-    "Self learning capability",
-    ["yes", "no"]
-)
+col1, col2 = st.columns(2)
 
-extra_courses = st.selectbox(
-    "Extra courses completed",
-    ["yes", "no"]
-)
+with col1:
 
-team_work = st.selectbox(
-    "Worked in team before",
-    ["yes", "no"]
-)
+    logical_rating = st.slider(
+        "Logical Quotient Rating",
+        0,
+        10,
+        5
+    )
 
-introvert = st.selectbox(
-    "Are you introvert?",
-    ["yes", "no"]
-)
+    coding_skills = st.slider(
+        "Coding Skills Rating",
+        0,
+        10,
+        5
+    )
 
-# converting text values
+    public_speaking = st.slider(
+        "Public Speaking Points",
+        0,
+        10,
+        5
+    )
 
-self_learning = encoders[
+    hackathons = st.slider(
+        "Hackathons Participated",
+        0,
+        10,
+        2
+    )
+
+    self_learning = st.selectbox(
+        "Self Learning Capability",
+        ["yes", "no"]
+    )
+
+    extra_courses = st.selectbox(
+        "Extra Courses Completed",
+        ["yes", "no"]
+    )
+
+with col2:
+
+    worked_in_teams = st.selectbox(
+        "Worked in Teams",
+        ["yes", "no"]
+    )
+
+    introvert = st.selectbox(
+        "Introvert",
+        ["yes", "no"]
+    )
+
+    reading_skills = st.selectbox(
+        "Reading and Writing Skills",
+        ["poor", "medium", "excellent"]
+    )
+
+    memory_capability = st.selectbox(
+        "Memory Capability Score",
+        ["poor", "medium", "excellent"]
+    )
+
+    smart_worker = st.selectbox(
+        "Smart Worker",
+        ["yes", "no"]
+    )
+
+    management_skills = st.slider(
+        "Management Skills",
+        0,
+        10,
+        5
+    )
+
+# encoding values
+
+self_learning_encoded = encoders[
     "self-learning capability?"
 ].transform([self_learning])[0]
 
-extra_courses = encoders[
+extra_courses_encoded = encoders[
     "Extra-courses did"
 ].transform([extra_courses])[0]
 
-team_work = encoders[
+worked_in_teams_encoded = encoders[
     "worked in teams ever?"
-].transform([team_work])[0]
+].transform([worked_in_teams])[0]
 
-introvert = encoders[
+introvert_encoded = encoders[
     "Introvert"
 ].transform([introvert])[0]
 
-# predict button
+reading_encoded = encoders[
+    "reading and writing skills"
+].transform([reading_skills])[0]
 
-if st.button("Predict Job Role"):
+memory_encoded = encoders[
+    "memory capability score"
+].transform([memory_capability])[0]
+
+smart_worker_encoded = 1 if smart_worker == "yes" else 0
+
+# prediction
+
+if st.button("Predict Career"):
 
     input_data = np.array([[
+
         logical_rating,
         hackathons,
         coding_skills,
         public_speaking,
-        self_learning,
-        extra_courses,
 
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        self_learning_encoded,
+        extra_courses_encoded,
 
-        0,
+        reading_encoded,
+        memory_encoded,
+
+        smart_worker_encoded,
+        management_skills,
 
         0,
         0,
         0,
 
-        team_work,
-        introvert
+        0,
+
+        0,
+        0,
+        0,
+
+        worked_in_teams_encoded,
+        introvert_encoded
+
     ]])
 
     prediction = model.predict(input_data)
 
-    st.success(
-        "Suggested Job Role : " + str(prediction[0])
-    )
+    # converting prediction into original label
 
-    st.write("Prediction completed successfully")
+    try:
+
+        final_prediction = encoders[
+            "Suggested Job Role"
+        ].inverse_transform(prediction)
+
+        st.success(
+            "Suggested Career Role: " +
+            str(final_prediction[0])
+        )
+
+    except:
+
+        st.success(
+            "Predicted Career Code: " +
+            str(prediction[0])
+        )
+
+    st.info("Prediction generated successfully.")
