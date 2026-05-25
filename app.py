@@ -15,42 +15,144 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+/* Main Background */
+
 .main {
-    background-color: #eef3f8;
+    background: linear-gradient(
+        135deg,
+        #0b1f3a,
+        #102b50,
+        #163d6b
+    );
+    color: white;
 }
+
+/* Main container */
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+/* Title */
 
 h1 {
-    color: #1d3557;
+    color: #ffffff;
     text-align: center;
     font-size: 42px;
-    font-weight: bold;
+    font-weight: 700;
+    font-family: 'Trebuchet MS', sans-serif;
+    letter-spacing: 1px;
 }
+
+/* Subheadings */
 
 h3 {
-    color: #264653;
+    color: #d6e4ff;
+    font-family: 'Verdana', sans-serif;
 }
 
-.stButton > button {
-    background-color: #457b9d;
-    color: white;
+/* Paragraph text */
+
+p {
+    color: #e8eef7;
+    font-size: 16px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Labels */
+
+label {
+    color: #ffffff !important;
+    font-weight: 500;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Selectbox styling */
+
+div[data-baseweb="select"] {
+    background-color: #f5f7fa;
     border-radius: 8px;
+    color: black;
+}
+
+/* Slider text */
+
+.stSlider {
+    color: white;
+}
+
+/* Radio button text */
+
+.stRadio label {
+    color: white !important;
+}
+
+/* Button */
+
+.stButton > button {
+    background-color: #4ea8de;
+    color: white;
+    border-radius: 10px;
     height: 50px;
     width: 100%;
     font-size: 18px;
+    font-weight: bold;
     border: none;
+    transition: 0.3s;
 }
 
 .stButton > button:hover {
-    background-color: #1d3557;
-    color: white;
+    background-color: #90e0ef;
+    color: #001233;
 }
 
-div[data-baseweb="select"] {
-    border-radius: 8px;
+/* Success box */
+
+.stSuccess {
+    background-color: #caf0f8;
+    color: #001233;
+    border-radius: 10px;
+    padding: 10px;
 }
 
-section[data-testid="stSidebar"] {
-    background-color: #dce8f2;
+/* Info box */
+
+.stInfo {
+    background-color: #d6e4ff;
+    color: #001233;
+    border-radius: 10px;
+}
+
+/* Horizontal line */
+
+hr {
+    border: 1px solid #4ea8de;
+}
+
+/* Mobile Responsive */
+
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .block-container {
+        padding-left: 6%;
+        padding-right: 6%;
+    }
+
+    .stButton > button {
+        font-size: 16px;
+        height: 45px;
+    }
 }
 
 </style>
@@ -68,20 +170,20 @@ st.title("Career Prediction System")
 
 st.write(
     "This system predicts suitable career paths based on "
-    "technical skills, interests, certifications and personality traits."
+    "technical skills, certifications, interests and personality traits."
 )
 
 st.markdown("---")
 
 # ---------------- INPUT SECTION ---------------- #
 
+st.subheader("Enter Student Details")
+
 col1, col2 = st.columns(2)
 
 # ---------- LEFT COLUMN ---------- #
 
 with col1:
-
-    st.subheader("Aptitude & Core Skills")
 
     logical_rating = st.slider(
         "Logical Quotient Rating",
@@ -131,8 +233,6 @@ with col1:
 # ---------- RIGHT COLUMN ---------- #
 
 with col2:
-
-    st.subheader("Technical Interests & Personality")
 
     interested_subjects = st.selectbox(
         "Primary Area of Interest",
@@ -217,7 +317,7 @@ with col2:
         horizontal=True
     )
 
-# ---------------- ENCODING VALUES ---------------- #
+# ---------------- ENCODING ---------------- #
 
 reading_encoded = encoders[
     "reading and writing skills"
@@ -235,7 +335,7 @@ self_learning_encoded = encoders[
     "self-learning capability?"
 ].transform([self_learning.lower()])[0]
 
-# additional manual encoding
+# manual encoding
 
 work_style_encoded = 1 if work_style == "Management" else 0
 
@@ -278,8 +378,6 @@ if st.button("Predict Career Path"):
     ]])
 
     prediction = model.predict(input_data)
-
-    # converting prediction into original label
 
     try:
 
