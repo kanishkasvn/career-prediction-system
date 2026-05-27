@@ -15,74 +15,92 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+/* Rich background gradient */
 .main {
-    background-color: #eef3f8;
+    background: linear-gradient(135deg, #f6f8fb 0%, #e9effd 100%);
 }
 
 .block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     padding-left: 5%;
     padding-right: 5%;
 }
 
+/* Chromatic multi-stop gradient for main title */
 h1 {
-    color: #1d3557;
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     text-align: center;
-    font-size: 40px;
-    font-weight: bold;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
 }
 
 h3 {
-    color: #264653;
+    color: #1e1b4b;
+    font-weight: 700;
+    font-size: 24px;
+    border-bottom: 3px solid #6366f1;
+    padding-bottom: 8px;
+    margin-bottom: 25px;
 }
 
 p {
     font-size: 16px;
+    color: #475569;
 }
 
+/* Vivid background with glow for the action button */
 .stButton > button {
-    background-color: #457b9d;
-    color: white;
-    border-radius: 8px;
-    height: 50px;
+    background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+    color: white !important;
+    border-radius: 10px;
+    height: 52px;
     width: 100%;
     font-size: 18px;
+    font-weight: bold;
     border: none;
+    box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+    transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    background-color: #1d3557;
-    color: white;
+    background: linear-gradient(90deg, #2563eb 0%, #7c3aed 100%);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+    transform: translateY(-1px);
 }
 
+/* Colorful input field matching */
 div[data-baseweb="select"] {
     border-radius: 8px;
+    border: 1px solid #cbd5e1;
 }
 
 section[data-testid="stSidebar"] {
-    background-color: #dce8f2;
+    background-color: #f1f5f9;
+}
+
+/* Dynamic slider colors */
+div[data-testid="stSlider"] {
+    padding-bottom: 15px;
 }
 
 /* Mobile Responsive */
-
 @media (max-width: 768px) {
-
     h1 {
-        font-size: 28px;
+        font-size: 30px;
     }
-
     .block-container {
         padding-left: 6%;
         padding-right: 6%;
     }
-
     p {
         font-size: 14px;
     }
-
     .stButton > button {
-        height: 45px;
+        height: 48px;
         font-size: 16px;
     }
 }
