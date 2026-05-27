@@ -15,9 +15,9 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Rich background gradient */
-.main {
-    background: linear-gradient(135deg, #f6f8fb 0%, #e9effd 100%);
+/* Rich background gradient applied across the app viewport */
+.stApp {
+    background: linear-gradient(135deg, #f6f8fb 0%, #e9effd 100%) !important;
 }
 
 .block-container {
@@ -82,18 +82,20 @@ section[data-testid="stSidebar"] {
     background-color: #f1f5f9;
 }
 
-/* --- OVERRIDE DEFAULT RED SLIDERS TO MATCH THEME --- */
-div[data-testid="stSlider"] [data-testid="stThumb"] {
+/* --- FORCE RED SLIDERS AND TRACKS TO THEME BLUE/PURPLE --- */
+div[data-testid="stSlider"] [style*="background-color: rgb(255, 75, 75)"] {
+    background-color: rgb(59, 130, 246) !important;
+}
+
+div[data-testid="stSlider"] [style*="background: rgb(255, 75, 75)"] {
+    background: rgb(59, 130, 246) !important;
+}
+
+/* Style slider circle handles */
+div[data-testid="stSlider"] div[role="slider"] {
     background-color: #8b5cf6 !important;
     border: 2px solid #3b82f6 !important;
-}
-
-div[data-testid="stSlider"] [data-base-class="stSlider"] div {
-    background-color: #3b82f6 !important;
-}
-
-div[data-testid="stSlider"] > div {
-    padding-bottom: 15px;
+    box-shadow: 0px 0px 8px rgba(139, 92, 246, 0.5) !important;
 }
 
 /* Mobile Responsive */
