@@ -82,8 +82,17 @@ section[data-testid="stSidebar"] {
     background-color: #f1f5f9;
 }
 
-/* Dynamic slider colors */
-div[data-testid="stSlider"] {
+/* --- OVERRIDE DEFAULT RED SLIDERS TO MATCH THEME --- */
+div[data-testid="stSlider"] [data-testid="stThumb"] {
+    background-color: #8b5cf6 !important;
+    border: 2px solid #3b82f6 !important;
+}
+
+div[data-testid="stSlider"] [data-base-class="stSlider"] div {
+    background-color: #3b82f6 !important;
+}
+
+div[data-testid="stSlider"] > div {
     padding-bottom: 15px;
 }
 
